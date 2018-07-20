@@ -6,13 +6,9 @@
 //  Copyright © 2018 Vicki Hardy. All rights reserved.
 //
 
-
-
 import UIKit
 import AVKit
 import AVFoundation
-
-
 
 class VideoPreviewViewController: UIViewController {
 
