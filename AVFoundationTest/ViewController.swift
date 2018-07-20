@@ -83,10 +83,10 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                     try captureSession.addInput(AVCaptureDeviceInput(device: audioInput))
                 }
                 
-                try videoCaptureDevice?.lockForConfiguration()
-                videoCaptureDevice?.activeVideoMinFrameDuration = CMTimeMake(1, 30)
-                videoCaptureDevice?.activeVideoMaxFrameDuration = CMTimeMake(1, 30)
-                videoCaptureDevice?.unlockForConfiguration()
+//                try videoCaptureDevice?.lockForConfiguration()
+//                videoCaptureDevice?.activeVideoMinFrameDuration = CMTimeMake(1, 30)
+//                videoCaptureDevice?.activeVideoMaxFrameDuration = CMTimeMake(1, 30)
+//                videoCaptureDevice?.unlockForConfiguration()
                 
                 // define output data
                 videoDataOutputQueue = DispatchQueue(label: "sessionQueue")
