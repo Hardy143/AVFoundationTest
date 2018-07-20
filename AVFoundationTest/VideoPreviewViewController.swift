@@ -143,66 +143,6 @@ class VideoPreviewViewController: UIViewController {
     }
 
 
-//    func createPlayer() {
-//        print(fileLocation!)
-//        asset = AVURLAsset(url: fileLocation!)
-//
-//        let assetKeys = [
-//            "playable",
-//            "hasProtectedContent"
-//        ]
-//
-//        //player = AVPlayer(url: fileLocation!)
-//        // create the looper
-//        let playerItem = AVPlayerItem(asset: asset!)
-//        player = AVPlayer(playerItem: playerItem)
-//        //looper = AVPlayerLooper(player: player, templateItem: AVPlayerItem(asset: AVAsset(url: fileLocation!)))
-//        //looper = AVPlayerLooper(player: player, templateItem: playerItem)
-//        //player.currentItem?.addObserver(self, forKeyPath: "duration", options: [.new, .initial], context: nil)
-//        //addTimeObserver()
-//        playerLayer = AVPlayerLayer(player: player)
-//        videoView.layer.addSublayer(playerLayer)
-//        playerLayer.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-//    }
-
-    // MARK: Main
-//    func loadURLAsset(_ asset:AVURLAsset) {
-//        asset.loadValuesAsynchronously(forKeys: VideoPreviewViewController.assetKeysRequiredToPlay) {
-//            DispatchQueue.main.async {
-//                guard asset == self.asset else { return }
-//                for key in VideoPreviewViewController.assetKeysRequiredToPlay {
-//                    var error: NSError?
-//
-//                    if !asset.isPlayable || asset.hasProtectedContent {
-//                        let message = "Video is not playable"
-//                        self.showAlert(title: "Error", message: message, dismiss: false)
-//
-//                        return
-//                    }
-//
-//                    if asset.statusOfValue(forKey: key, error: &error) == .failed {
-//                        let message = "Failed to load"
-//                        self.showAlert(title: "Error", message: message, dismiss: false)
-//
-//                        return
-//                    }
-//                }
-//
-//                self.playerItem = AVPlayerItem(asset: asset)
-//            }
-//        }
-//    }
-
-    // Mark: Callbacks
-//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-//        if keyPath == "player.currentItem.status" {
-//            playPauseButton.isHidden = false
-//        }
-//    }
-
-//    @objc func playerReachedEnd(notification: NSNotification) {
-//        self.asset = AVURLAsset(url: self.fileLocation!)
-//    }
 
     @IBAction func backButtonPressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
