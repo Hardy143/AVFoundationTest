@@ -37,7 +37,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     // avassetreader
     var assetReader: AVAssetReader!
     
-    lazy var lastSampleTime: CMTime = kCMTimeZero
+    //lazy var lastSampleTime: CMTime = kCMTimeZero
 
     
     override func viewDidLoad() {
