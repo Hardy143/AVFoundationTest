@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="SK6-7H-ccW">
-                                        <rect key="frame" x="118" y="6" width="139" height="34"/>
+                                        <rect key="frame" x="158.5" y="6" width="58" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <state key="normal" title="Record"/>
                                         <connections>
@@ -45,10 +45,9 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="0.25422731164383561" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="SK6-7H-ccW" secondAttribute="trailing" constant="118" id="7dz-ba-RTW"/>
                                     <constraint firstAttribute="height" constant="50" id="Dvu-ir-G3d"/>
-                                    <constraint firstAttribute="bottom" secondItem="SK6-7H-ccW" secondAttribute="bottom" constant="10" id="JwN-h1-ghW"/>
-                                    <constraint firstItem="SK6-7H-ccW" firstAttribute="leading" secondItem="Vna-BU-h0P" secondAttribute="leading" constant="118" id="g9X-fb-GJq"/>
+                                    <constraint firstAttribute="bottom" secondItem="SK6-7H-ccW" secondAttribute="bottom" constant="10" id="KxY-uU-dFQ"/>
+                                    <constraint firstItem="SK6-7H-ccW" firstAttribute="centerX" secondItem="Vna-BU-h0P" secondAttribute="centerX" id="VtD-JS-OJW"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -92,6 +91,11 @@
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="gfg-hG-aGv">
                                             <connections>
                                                 <action selector="backButtonPressed:" destination="dlf-sl-etF" id="6Ie-mE-4uM"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Z5B-J6-goE">
+                                            <connections>
+                                                <action selector="saveButtonTouched:" destination="dlf-sl-etF" id="MEb-g0-WK5"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>

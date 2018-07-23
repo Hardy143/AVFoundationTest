@@ -68,7 +68,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     func initialiseCamera() {
 
         // size of the output video will be 720x1280
-        captureSession.sessionPreset = .hd1280x720
+        captureSession.sessionPreset = .high
+        
         
         // set up camera
         videoCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front)
@@ -83,10 +84,31 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                     try captureSession.addInput(AVCaptureDeviceInput(device: audioInput))
                 }
                 
-//                try videoCaptureDevice?.lockForConfiguration()
-//                videoCaptureDevice?.activeVideoMinFrameDuration = CMTimeMake(1, 30)
-//                videoCaptureDevice?.activeVideoMaxFrameDuration = CMTimeMake(1, 30)
-//                videoCaptureDevice?.unlockForConfiguration()
+                try videoCaptureDevice?.lockForConfiguration()
+                
+                // set fps
+                videoCaptureDevice?.activeVideoMinFrameDuration = CMTimeMake(1, 20)
+                videoCaptureDevice?.activeVideoMaxFrameDuration = CMTimeMake(1, 25)
+                
+                // set low light boost support
+                if videoCaptureDevice!.isLowLightBoostSupported {
+                    print("Low light supported")
+                    videoCaptureDevice!.automaticallyEnablesLowLightBoostWhenAvailable = true
+                }
+                
+                // set continuous auto exposure
+                if videoCaptureDevice!.isExposureModeSupported(.continuousAutoExposure) {
+                    print("Auto exposure supported")
+                    videoCaptureDevice!.exposureMode = .continuousAutoExposure
+                }
+
+                // set auto focus mode
+                if videoCaptureDevice!.isFocusModeSupported(.continuousAutoFocus) {
+                    print("Auto focus is supported")
+                    videoCaptureDevice!.focusMode = .continuousAutoFocus
+                }
+                
+                videoCaptureDevice?.unlockForConfiguration()
                 
                 // define output data
                 videoDataOutputQueue = DispatchQueue(label: "sessionQueue")
@@ -95,10 +117,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
                 ]
                 videoDataOutput.alwaysDiscardsLateVideoFrames = true
-                
-                
 
-                
                 if captureSession.canAddOutput(videoDataOutput) {
                     videoDataOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
                     captureSession.addOutput(videoDataOutput)
@@ -112,17 +131,12 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 
                 captureSession.commitConfiguration()
         
-                
                 // create preview layer to see what you're recording
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
                 previewLayer?.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
                 previewLayer?.connection?.videoOrientation = .portrait
+                previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
                 previewView.layer.addSublayer(previewLayer!)
-                
-                
-                
-                // add output to video file
-                //captureSession.addOutput(movieFileOutput)
 
                 // start the session
                 captureSession.startRunning()
@@ -137,7 +151,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
         do {
             outputFileLocation = videoFileLocation()
-            videoWriter = try AVAssetWriter(outputURL: outputFileLocation!, fileType: AVFileType.mov)
+            videoWriter = try AVAssetWriter(outputURL: outputFileLocation!, fileType: AVFileType.mp4)
             
             // add video input
             videoWriterInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: [
@@ -145,7 +159,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                 AVVideoWidthKey : 720,
                 AVVideoHeightKey : 1280,
                 AVVideoCompressionPropertiesKey : [
-                    AVVideoAverageBitRateKey : 2300000,
+                    AVVideoAverageBitRateKey : 2000000,
                     ],
                 ])
                         
@@ -185,7 +199,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
      //video file location method
     func videoFileLocation() -> URL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-        let videoOutputUrl = URL(fileURLWithPath: documentsPath.appendingPathComponent("videoFile")).appendingPathExtension("mov")
+        let videoOutputUrl = URL(fileURLWithPath: documentsPath.appendingPathComponent("videoFile")).appendingPathExtension("mp4")
         do {
         if FileManager.default.fileExists(atPath: videoOutputUrl.path) {
             try FileManager.default.removeItem(at: videoOutputUrl)
@@ -270,13 +284,6 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         captureSession.stopRunning()
         performSegue(withIdentifier: "videoPreview", sender: nil)
     }
-    
-//    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-//        print("Finished recording: \(outputFileURL)")
-//
-//        outputFileLocation = outputFileURL
-//        performSegue(withIdentifier: "videoPreview", sender: nil)
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 import AVFoundation
+import Photos
 
 class VideoPreviewViewController: UIViewController {
 
@@ -45,6 +46,15 @@ class VideoPreviewViewController: UIViewController {
 
     }
     
+    @IBAction func backButtonPressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func saveButtonTouched(_ sender: Any) {
+        
+        addVideoToLibrary()
+    }
+
     // MARK: Create AVAssetReader
     func createAssetReader() {
         reader = try! AVAssetReader(asset: asset)
@@ -66,7 +76,6 @@ class VideoPreviewViewController: UIViewController {
     
     }
     
-    
     // Mark: Create AVPlayer
     func prepareToPlay() {
         
@@ -83,8 +92,10 @@ class VideoPreviewViewController: UIViewController {
         looper = AVPlayerLooper(player: player, templateItem: playerItem!)
         
         playerLayer = AVPlayerLayer(player: player)
-        videoView.layer.addSublayer(playerLayer)
         playerLayer.frame = self.videoView.bounds
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoView.layer.addSublayer(playerLayer)
+        
         
     }
     
@@ -123,13 +134,7 @@ class VideoPreviewViewController: UIViewController {
             }
         }
     }
-    
-    func handleErrorWithMessage(_ message: String?, error: Error? = nil) {
-        print("Error occured with message: \(message), error: \(error).")
-    }
 
-
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -138,14 +143,27 @@ class VideoPreviewViewController: UIViewController {
         super.viewDidLayoutSubviews()
     }
 
-
-
-    @IBAction func backButtonPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+    // MARK: Helper functions
+    
+    // add video to photo library
+    func addVideoToLibrary() {
+        
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: self.fileLocation!)
+        }, completionHandler: { success, error in
+            if success {
+                let alert = UIAlertController(title: "Success", message: "Video saved to your library", preferredStyle: .alert)
+                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                alert.addAction(action)
+                self.present(alert, animated: true, completion: nil)
+                print("Successful")
+            } else if let error = error {
+                print("\(error.localizedDescription)")
+            }
+        })
     }
-
-
-
+    
+    // alert function
     func showAlert(title:String, message:String, dismiss:Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
@@ -159,9 +177,11 @@ class VideoPreviewViewController: UIViewController {
 
         self.present(controller, animated: true, completion: nil)
     }
-
-
-
+    
+    // error message function
+    func handleErrorWithMessage(_ message: String?, error: Error? = nil) {
+        print("Error occured with message: \(message), error: \(error).")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
