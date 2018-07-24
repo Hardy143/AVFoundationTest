@@ -156,7 +156,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
         do {
             outputFileLocation = videoFileLocation()
-            videoWriter = try AVAssetWriter(outputURL: outputFileLocation!, fileType: AVFileType.mp4)
+            videoWriter = try AVAssetWriter(outputURL: outputFileLocation!, fileType: AVFileType.mov)
             
             // add video input
             videoWriterInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: [
@@ -204,7 +204,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
      //video file location method
     func videoFileLocation() -> URL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-        let videoOutputUrl = URL(fileURLWithPath: documentsPath.appendingPathComponent("videoFile")).appendingPathExtension("mp4")
+        let videoOutputUrl = URL(fileURLWithPath: documentsPath.appendingPathComponent("videoFile")).appendingPathExtension("mov")
         do {
         if FileManager.default.fileExists(atPath: videoOutputUrl.path) {
             try FileManager.default.removeItem(at: videoOutputUrl)
