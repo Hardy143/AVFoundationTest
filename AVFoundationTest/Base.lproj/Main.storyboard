@@ -24,6 +24,13 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sig-8g-OpA">
+                                <rect key="frame" x="10" y="60" width="21" height="21"/>
+                                <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P2V-Up-JZd">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -54,12 +61,15 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Vna-BU-h0P" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="dCY-vJ-sID"/>
+                            <constraint firstItem="sig-8g-OpA" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="60" id="gdB-3N-A3Y"/>
+                            <constraint firstItem="sig-8g-OpA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="iE6-nK-D6g"/>
                             <constraint firstItem="Vna-BU-h0P" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="k0v-Pi-11b"/>
                             <constraint firstItem="Vna-BU-h0P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uqu-0Z-bZa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="framesLabel" destination="sig-8g-OpA" id="xIk-Gf-X5O"/>
                         <outlet property="previewView" destination="hxS-PI-fYS" id="cvK-nn-LE0"/>
                         <outlet property="recordButton" destination="SK6-7H-ccW" id="vcA-Rp-wdz"/>
                         <segue destination="dlf-sl-etF" kind="presentation" identifier="videoPreview" id="kY8-B1-cYv"/>

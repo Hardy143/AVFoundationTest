@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationTest/ViewController.swift"
-            timestampString = "554053132.774855"
+            timestampString = "554118596.76425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316">
+            startingLineNumber = "329"
+            endingLineNumber = "329">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -10,11 +10,13 @@ import UIKit
 import AVFoundation
 import ImageIO
 import AssetsLibrary
+import CoreFoundation
 
 class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate {
     
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var framesLabel: UILabel! 
     
     // AVFoundation video recording properties
     let captureSession = AVCaptureSession()
@@ -38,6 +40,9 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var assetReader: AVAssetReader!
     
     //lazy var lastSampleTime: CMTime = kCMTimeZero
+    
+    var prevTime = CFAbsoluteTimeGetCurrent()
+    var buffer = 0
 
     
     override func viewDidLoad() {
@@ -212,6 +217,16 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         return videoOutputUrl
     }
     
+    // work out fps
+    func framesPerSecond() -> Double {
+        let currentTime = CFAbsoluteTimeGetCurrent()
+        let timeInSeconds: Double = currentTime - prevTime
+        let fps: Double = 1.0 / timeInSeconds
+        prevTime = currentTime
+        
+        return fps
+    }
+    
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
@@ -231,6 +246,17 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             if connection.isVideoMirroringSupported {
                 connection.isVideoMirrored = true
             }
+            
+            let frames = framesPerSecond()
+            
+            if buffer % 5 == 0 {
+                DispatchQueue.main.sync {
+                    framesLabel.text = String(format: "FPS: %.0f", frames)
+                }
+            }
+            
+            buffer += 1
+            
         }
         
         if writable,
